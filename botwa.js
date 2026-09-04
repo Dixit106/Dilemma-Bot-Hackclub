@@ -1,4 +1,5 @@
 export default function bot({ history, memory }) {
+
     if (memory === null) {
         memory = { betrayals: 0 };
     }
