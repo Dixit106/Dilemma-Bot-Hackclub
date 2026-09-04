@@ -1,41 +1,35 @@
 export default function bot({ history, memory }) {
 
-    memory = memory ?? { strikes: 0, state: "normal" };
+    memory = memory ?? { opStrikes: 0, weTested: false, doNotTest: false };
 
     if (history.length === 0) return ["C", memory];
 
-    const opMove = history.at(-1).opponent;
-    if (opMove === "D") memory.strikes++;
+    const opLast = history.at(-1).opponent;
+    if (opLast === "D") memory.opStrikes++;
 
-    if (memory.strikes >= 3) return ["D", memory];
-
-    if (memory.state === "exploiting") return ["D", memory];
-
-    if (history.length === 15 && memory.strikes === 0) {
-        memory.state = "testing";
-        return ["D", memory];
+    if (memory.weTested && opLast === "D") {
+        memory.weTested = false;
+        memory.doNotTest = true;
+        return ["C", memory];
     }
 
-    if (memory.state === "testing") {
-        if (opMove === "C") {
-            memory.state = "exploiting";
-            return ["D", memory];
-        } else {
-            memory.state = "apologizing";
+    memory.weTested = false;
+
+    if (history.length > 1){
+        const myLast = history.at(-1).you;
+        const opPrev = history.at(-2).opponent;
+        const myPrev = history.at(-2).you;
+        if (myLast === "D" && opLast === "D" && myPrev === "D" && opPrev === "D") {
             return ["C", memory];
         }
     }
 
-    if (memory.state === "apologizing") {
-        memory.state = "normal";
-        return ["C", memory];
+    if (opLast === "D") return ["D", memory];
+
+    if (!memory.doNotTest && history.length % 10 === 0 && memory.opStrikes === 0) {
+        memory.weTested = true;
+        return ["D", memory];
     }
 
-    if (history.length > 1) {
-        const prevOpMove = history.at(-2).opponent;
-        if (opMove === "D" && prevOpMove === "D") {
-            return ["D", memory];
-        }
-    }
     return ["C", memory];
 }
