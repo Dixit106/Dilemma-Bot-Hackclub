@@ -1,4 +1,39 @@
-export default function bot({ history, memory }) {
+export default function bot({ history = [], memory }) {
+    try {
+        const t = history.length;
+        const men = memory ?? {
+            olivesSent: 0,
+            dStreak: 0,
+            probed: false,
+            armed: false,
+            siphoning: false,
+        };
+        
+        if (t === 0) return ["C", mem];
+        const last =history[t - 1];
+        const prev = t >=2 ? history[t - 2] : null;
+
+        mem.dStreak = (last.you === "D" && last.opponent === "D") ? mem.dStreak + 1 : 0;
+        
+        // bot gives D up to 5 rounds to see if opponent is conditional
+        const allOurMovesC = history.every(r => r.you === "C");
+        if (history[0].opponent === "D" && allOurMovesC) {
+            if(last.opponent === "C" || t < 5) return ["C", mem];
+        }
+
+        //to shut down alternat moves exploit bot
+        if (t >= 14 && isRigidPattern(history)) {
+            return ["D", mem];
+        }
+
+        //round 7 to see TF2T & other nice and simple bots
+        const oppEverD = history.some(r => r.opponent === "D");
+        if (t === 7 && !oppEverD && !mem.probed) {
+            return ["D", mem];
+        }
+
+        
+    }
 
     memory = memory ?? { opStrikes: 0, state: "normal" };
 
