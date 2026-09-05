@@ -8,6 +8,9 @@ export default function bot({ history = [], memory }) {
             armed: false,
             siphoning: false,
         };
+
+        //everything is fair in love and war
+        if (t >= 119) return ["D", mem];
         
         if (t === 0) return ["C", mem];
         const last =history[t - 1];
@@ -18,7 +21,14 @@ export default function bot({ history = [], memory }) {
         // bot gives D up to 5 rounds to see if opponent is conditional
         const allOurMovesC = history.every(r => r.you === "C");
         if (history[0].opponent === "D" && allOurMovesC) {
-            if(last.opponent === "C" || t < 5) return ["C", mem];
+            if(last.opponent === "C" || t < 3) return ["C", mem];
+        }
+
+        //inspiration 001
+        const firstD = history.findIndex(r => r.opponent === "D");
+        if (firstD !== -1 && (t - firstD >= 4)) {
+            const neverForgave = history.slice(firstD).every(r => r.opponent === "D");
+            if (neverForgave) return ["D", mem];
         }
 
         //to shut down alternat moves exploit bot :/
@@ -28,17 +38,17 @@ export default function bot({ history = [], memory }) {
 
         //round 7 to see TF2T & other nice and simple bots :|
         const oppEverD = history.some(r => r.opponent === "D");
-        if (t === 7 && !oppEverD && !mem.probed) {
+        if (t === 4 && !oppEverD && !mem.probed) {
             mem.probed = true;
             return ["D", mem];
         }
 
         //Lets see feedback :)
         if (mem.probed && !mem.armed && !mem.siphoning) {
-            if (t === 8) {
+            if (t === 5) {
                 return ["C", mem];
             }
-            if (t === 9) {
+            if (t === 6) {
                 if (last.opponent === "D") {
                     mem.armed = true;
                 }else {
@@ -73,7 +83,7 @@ export default function bot({ history = [], memory }) {
             return ["C", mem];
         }
 
-        const ladder = [4, 15, 35];
+        const ladder = [2, 5, 10, 20];
         const oppEverC = history.some(r => r.opponent === "C");
         if (oppEverC && mem.olivesSent < ladder.length && mem.dStreak >= ladder[mem.olivesSent]) {
             mem.olivesSent++;
