@@ -10,7 +10,7 @@ export default function bot({ history = [], memory }) {
         };
 
         //everything is fair in love and war
-        if (t >= 119) return ["D", mem];
+        if (t >= 118) return ["D", mem];
         
         if (t === 0) return ["C", mem];
         const last =history[t - 1];
@@ -18,7 +18,7 @@ export default function bot({ history = [], memory }) {
 
         mem.dStreak = (last.you === "D" && last.opponent === "D") ? mem.dStreak + 1 : 0;
         
-        // bot gives D up to 5 rounds to see if opponent is conditional
+        // bot gives D up to 3 rounds to see if opponent is conditional
         const allOurMovesC = history.every(r => r.you === "C");
         if (history[0].opponent === "D" && allOurMovesC) {
             if(last.opponent === "C" || t < 3) return ["C", mem];
@@ -38,22 +38,23 @@ export default function bot({ history = [], memory }) {
 
         //round 7 to see TF2T & other nice and simple bots :|
         const oppEverD = history.some(r => r.opponent === "D");
-        if (t === 4 && !oppEverD && !mem.probed) {
+        if (t === 7 && !oppEverD && !mem.probed) {
             mem.probed = true;
             return ["D", mem];
         }
 
         //Lets see feedback :)
         if (mem.probed && !mem.armed && !mem.siphoning) {
-            if (t === 5) {
+            if (t === 8) {
                 return ["C", mem];
             }
-            if (t === 6) {
+            if (t === 9) {
                 if (last.opponent === "D") {
                     mem.armed = true;
                 }else {
                     mem.siphoning = true;
                 }
+                return ["C", mem];
             }
         }
 
