@@ -71,7 +71,49 @@ export default function bot({ history = [], memory }) {
             return ["C", mem];
         }
 
+        const ladder = [4, 15, 35];
+        const oppEverC = history.some(r => r.opponent === "C");
+        if (oppEverC && mem.olivesSent < ladder.length && mem.dStreak >= ladder[mem.olivesSent]) {
+            mem.olivesSent++;
+            return ["C", mem];
+        }
 
+        return ["D", mem];
+       } catch {
+        return ["D", null];
+       }
+    }
+
+    function getRecentState(history, windowSize) {
+        let cAfterC = 0, nC = 0;
+        let cAfterD = 0, nD = 0;
+        const start = Math.max(1, history.length - windowSize);
+
+        for (len i = start; i < history.length; i++) {
+          const myprev = history[i - 1].you;
+          const theirMove = history[i].opponent;
+
+          if (myPrev === "C") {
+            nC++;
+            if (theirMove === "C") cAfterC++;
+          } else {
+            nD++;
+            if (theirMove === "C") cAfterD++;
+          }
+        }
+
+        return {
+            pC: (cAfterC + 0.5) / (nC + 1),
+            pD: (cAfterD + 0.5) / (nD + 1),
+            samplesAfterD: nD,
+        };
+      }
+      
+      function isRigidPattern(history) {
+        const window = history.slice(-20);
+        const move = window.map(r => r.opponent);
+        if (!move.includes("C") || !move.includes("D")) return false;
+      }
     }
 
     memory = memory ?? { opStrikes: 0, state: "normal" };
