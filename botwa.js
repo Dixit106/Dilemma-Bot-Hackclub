@@ -32,7 +32,46 @@ export default function bot({ history = [], memory }) {
             return ["D", mem];
         }
 
-        
+        //Lets see feedback
+        if (mem.probed && !mem.armed && !mem.siphoning) {
+            if (t === 8) {
+                if (last.opponent === "D") {
+                    mem.armed = true; //backing off
+                }
+                return ["C", mem];
+            }
+            if (t === 9) {
+                if (last.opponent === "C") mem.siphoning = true; //opponent is softy :)
+            }
+        }
+
+        //some harvesting system :@
+        if (mem.siphoning) {
+            if (last.opponent === "D") {
+                mem.siphoning = false;
+                return ["C", mem];
+            }
+            return [t % 2 === 0 ? "D" : "C", mem];
+        }
+
+        if (!oppEverD) return ["C", mem];
+
+        const { pC, pD, samplesAfterD } = getRecentState(history, 12);
+        const oppDRate = history.filter(r => r.opponent === "D").length / t;
+
+        //nasty play i defect if they never punish D :#
+        if (samplesAfterD >= 3 && pD >= 0.45 && oppDRate < 0.35) {
+            return ["D", mem];
+        }
+
+        //coop with tit for tat bots
+        if (pC >= 0.6) {
+            const weProvokedThem = last.opponent === "D" && prev?.you === "D";
+            if (last.opponent === "D" && !weProvokedThem) return ["D", mem];
+            return ["C", mem];
+        }
+
+
     }
 
     memory = memory ?? { opStrikes: 0, state: "normal" };
