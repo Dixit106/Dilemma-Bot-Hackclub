@@ -43,6 +43,9 @@ The Olive Branch Ladder: If both bots get stuck in a "Death Spiral" of mutual de
 
 
 
+
+
+
 2. **Mystic:-**
 You can see code by going to link I have provided above or you can see it on github.
 **Explanation:-**
@@ -56,7 +59,11 @@ You can see code by going to link I have provided above or you can see it on git
 
 
 
-2. **Dilemma-Bot-Hackclub:-**
+
+
+
+
+3. **Dilemma-Bot-Hackclub:-**
 You can see code by going to link I have provided above or you can see it on github.
 **Explanation:-**
 (Copycat):- return [lastOpponentMove, memory], Plays Tit-for-Tat so it just do what opponent did on last round. If opponent punch my bot punch if opponent bot is kind my bot is kind this is the basic bot in game theory which mostly Wins although environment is a big factor.
