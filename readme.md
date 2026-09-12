@@ -28,13 +28,13 @@ You can see code by going to link I have provided above or you can see it on git
 (Starting Lines):- Every Round, Poseidon will open it's notebook(memory). It remembers if it has sent "olive branches" (peace offerings), how long a mutual war has been going on (dStreak), and whether it has tested the opponent yet.
 
 
-(5-Round Handshake):- If opponent bot playes "D" on the very first turn. Poseidon have to judge if they are dumb bully or a smart bot testing my bot's reaction. Poseidon will play "C" for 5 rounds. If opponent switches to "C", great! We have understanding to be good bot. If they keep up with their "D", Poseidon stops and start's playing "D" so that opponent won't get anymore free points.
+(5-Round Handshake) (Lines 20-24 aprox):- If opponent bot playes "D" on the very first turn. Poseidon have to judge if they are dumb bully or a smart bot testing my bot's reaction. Poseidon will play "C" for 5 rounds. If opponent switches to "C", great! We have understanding to be good bot. If they keep up with their "D", Poseidon stops and start's playing "D" so that opponent won't get anymore free points.
 
-(Round 7 Poke):- In round 7 opponent and my bot is playing only "C". Now my bot has to do a pushover check to see if they are nice but strong or nice and dumb. To check poseidon plays a sudden "D"(Poke). Then Poseidon see the reaction to get a feedback and to do so it plays "C" on round 8 and on round 8 and 9 it also see the reaction for the poke. If they hit back, Poseidon tags them as armed(conclusion:- respect them and play nice).But if opponent kept playing "C" even after our Poke(conclusion:- tag them as siphoning which means a pushover so we can get some extra points out of it).
+(Round 7 Poke) (Lines 31-48 aprox):- In round 7 opponent and my bot is playing only "C". Now my bot has to do a pushover check to see if they are nice but strong or nice and dumb. To check poseidon plays a sudden "D"(Poke). Then Poseidon see the reaction to get a feedback and to do so it plays "C" on round 8 and on round 8 and 9 it also see the reaction for the poke. If they hit back, Poseidon tags them as armed(conclusion:- respect them and play nice).But if opponent kept playing "C" even after our Poke(conclusion:- tag them as siphoning which means a pushover so we can get some extra points out of it).
 
-(Harvesting):- In a pushover case Poseidon will alternate between "D" and "C".Logic is to get extra points and without triggering the defensess of opponent bot and if defenses get activated we go back to playing "C" as a sorry.
+(Harvesting) (Lines 50-57):- In a pushover case Poseidon will alternate between "D" and "C".Logic is to get extra points and without triggering the defensess of opponent bot and if defenses get activated we go back to playing "C" as a sorry.
 
-(Maths and The Peace Treaty):- 
+(Maths and The Peace Treaty) (Lines 61-78 aprox):- 
 The Nasty Play: Poseidon uses the getRecentState function to calculate exactly how often the opponent punishes bad behavior. If the math shows they rarely punish a "D", Poseidon turns into a bully and just defects.
 
 If the opponent is mostly cooperative, Poseidon copies their moves. But here is the genius part: if the opponent plays "D" because Poseidon provoked them first, Poseidon forgives them and plays "C". It knows it started the fight, so it apologizes to prevent a revenge cycle.
@@ -55,5 +55,16 @@ You can see code by going to link I have provided above or you can see it on git
 (Scheduled Harvest) (Lines 33-43 aprox):- Instead of farming aggressively like Poseidon (alternating every single round), Mystic only steals points on very specific, hardcoded rounds: 23, 27, 53, 71, 89, and 107. If the opponent ever wakes up and plays "D", Mystic gets scared, switches to "respect" mode, and never tries to farm again.
 
 
+
+2. **Dilemma-Bot-Hackclub:-**
+You can see code by going to link I have provided above or you can see it on github.
+**Explanation:-**
+(Copycat):- return [lastOpponentMove, memory], Plays Tit-for-Tat so it just do what opponent did on last round. If opponent punch my bot punch if opponent bot is kind my bot is kind this is the basic bot in game theory which mostly Wins although environment is a big factor.
+
+(Betrayal Count):- (memory.betryals += 1). It keeps how many times opponent betryed in it's memory.
+
+(Lock In):- Betryal counter is used to see if opponent betryas 3 times then my Bot locks into Only "D" mode.
+
+
 # The Result: 
-Poseidon performed amazingly, reaching an average score of almost 1.9. It was so strong that it actually dragged the top bot's score down from 1.9 to around 1.88! Even though my first two bots were not the best, making them played a big role in helping me learn how to make Poseidon this good.
+**Poseidon performed amazingly, reaching an average score of almost 1.9. It was so strong that it actually dragged the top bot's score down from 1.9 to around 1.88! Even though my first two bots were not the best, making them played a big role in helping me learn how to make Poseidon this good.**
